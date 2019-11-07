@@ -23,13 +23,13 @@ describe.only('bookmarks Endpoints', function() {
     context('Given no bookmarks', () => {
       it('responds with 200 and an empty list', () => {
         return supertest(app)
-          .get('/bookmarks')
+          .get('')
           .expect(200, []);
       });
       it('responds with 404', () => {
         const bookmarkId = 123456;
         return supertest(app)
-          .get(`/bookmarks/${bookmarkId}`)
+          .get(`/${bookmarkId}`)
           .expect(404, { error: { message: 'bookmark doesnt exist' } });
       });
     });
@@ -40,14 +40,14 @@ describe.only('bookmarks Endpoints', function() {
       });
       it('GET /Bookmarks responds with 200 and all of the Bookmarks', () => {
         return supertest(app)
-          .get('/bookmarks')
+          .get('/')
           .expect(200, testBookmarks);
       });
       it('GET /bookmark/:bookmark_id responds with 200 and the specified bookmark', () => {
         const bookmarkId = 2;
         const expectedbookmark = testBookmarks[bookmarkId - 1];
         return supertest(app)
-          .get(`/bookmarks/${bookmarkId}`)
+          .get(`/${bookmarkId}`)
           .expect(200, expectedbookmark);
       });
     });
