@@ -3,7 +3,7 @@ const knex = require('knex');
 const app = require('../src/app');
 const { makeBookMarksArray } = require('./bookmarks.fixtures');
 
-describe.only('bookmarks Endpoints', function() {
+describe.only('bookmarks endpoints', function() {
   let db;
 
   before('make knex instance', () => {
@@ -19,7 +19,7 @@ describe.only('bookmarks Endpoints', function() {
   before('clean the table', () => db('bookmarks').truncate());
 
   afterEach('cleanup', () => db('bookmarks').truncate());
-  describe('GET /bookmarks', () => {
+  describe('GET /', () => {
     context('Given no bookmarks', () => {
       it('responds with 200 and an empty list', () => {
         return supertest(app)
@@ -33,17 +33,17 @@ describe.only('bookmarks Endpoints', function() {
           .expect(404, { error: { message: 'bookmark doesnt exist' } });
       });
     });
-    context('Given there are Bookmarks in the database', () => {
+    context('Given there are bookmarks in the database', () => {
       const testBookmarks = makeBookMarksArray();
       beforeEach('insert Bookmarks', () => {
         return db.into('bookmarks').insert(testBookmarks);
       });
-      it('GET /Bookmarks responds with 200 and all of the Bookmarks', () => {
+      it('GET / responds with 200 and all of the Bookmarks', () => {
         return supertest(app)
           .get('/')
           .expect(200, testBookmarks);
       });
-      it('GET /bookmark/:bookmark_id responds with 200 and the specified bookmark', () => {
+      it('GET /:bookmark_id responds with 200 and the specified bookmark', () => {
         const bookmarkId = 2;
         const expectedbookmark = testBookmarks[bookmarkId - 1];
         return supertest(app)
